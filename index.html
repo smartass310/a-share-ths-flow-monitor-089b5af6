@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A 股同花顺资金流监测站</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <section class="identity" aria-label="站点标题">
+          <p class="eyebrow">A 股 · 同花顺行业 / 概念 / 个股</p>
+          <h1>每日资金流监测站</h1>
+          <p class="subhead">收盘后更新，跟踪行业、概念与个股资金强弱。</p>
+        </section>
+        <section class="status-strip" aria-label="数据状态">
+          <div><span class="label">交易日</span><strong id="trading-day">--</strong></div>
+          <div><span class="label">更新</span><strong id="generated-at">--</strong></div>
+          <div><span class="label">资金流覆盖</span><strong id="coverage-status">--</strong></div>
+        </section>
+      </header>
+
+      <section class="alert" id="data-alert" hidden></section>
+
+      <section class="metrics-grid" aria-label="市场总览">
+        <article class="metric-card accent-green"><span>行业净流入</span><strong id="level1-positive">--</strong><small>净流入行业数量</small></article>
+        <article class="metric-card accent-red"><span>行业净流出</span><strong id="level1-negative">--</strong><small>净流出行业数量</small></article>
+        <article class="metric-card accent-gold"><span>最强概念</span><strong id="top-l2-name">--</strong><small id="top-l2-note">--</small></article>
+        <article class="metric-card accent-cyan"><span>个股冠军</span><strong id="signal-count">--</strong><small>当日净流入居前</small></article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel main-panel">
+          <div class="panel-head">
+            <div><p class="panel-kicker">同花顺行业</p><h2>行业资金强弱分布</h2></div>
+            <div class="segmented" role="tablist" aria-label="行业图表指标">
+              <button class="active" data-view="netFlow">净流入</button>
+              <button data-view="flowRate">净流入率</button>
+              <button data-view="changePct">涨跌幅</button>
+            </div>
+          </div>
+          <div class="bar-chart" id="level1-chart" aria-label="行业资金条形图"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head compact"><div><p class="panel-kicker">概念热区</p><h2>概念资金热力</h2></div></div>
+          <div class="heatmap" id="level2-heatmap" aria-label="概念资金热力图"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head compact"><div><p class="panel-kicker">资金信号</p><h2>板块 / 个股异动</h2></div></div>
+          <div class="list-stack" id="streak-list"></div>
+        </article>
+
+        <article class="panel report-panel">
+          <div class="panel-head compact"><div><p class="panel-kicker">每日复盘</p><h2 id="report-title">站内小报告</h2></div></div>
+          <div class="report-body" id="report-body"></div>
+        </article>
+
+        <article class="panel table-panel">
+          <div class="panel-head">
+            <div><p class="panel-kicker">明细榜单</p><h2>同花顺资金流排名</h2></div>
+            <div class="table-actions">
+              <div class="table-tools dataset-tools">
+                <button class="active" data-table-dataset="industry">行业</button>
+                <button data-table-dataset="concept">概念</button>
+                <button data-table-dataset="stock">个股</button>
+              </div>
+              <div class="table-tools">
+                <button class="active" data-table-filter="all">全部</button>
+                <button data-table-filter="inflow">流入</button>
+                <button data-table-filter="outflow">流出</button>
+              </div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>排名</th><th>名称</th><th>类型/代码</th><th>净流入</th><th>净流入率</th><th>涨跌幅</th><th>领涨/备注</th><th>状态</th></tr></thead>
+              <tbody id="level2-table"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
