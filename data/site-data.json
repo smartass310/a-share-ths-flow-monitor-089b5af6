@@ -1,15 +1,15 @@
 {
   "meta": {
     "tradingDay": "2026-07-23",
-    "generatedAt": "2026-07-23 23:36",
+    "generatedAt": "2026-07-24 21:08",
     "taxonomy": "同花顺行业 / 概念 / 个股资金流",
     "dataMode": "live",
-    "dataWarning": "真实数据来自同花顺公开资金流页面；行业与概念分类为同花顺口径，不是申万分类。",
+    "dataWarning": "本次同花顺真实数据更新失败，继续展示最近一次数据。原因：fetch failed",
     "coverageNote": "第一版展示当日资金流快照；历史序列将在每日自动更新后逐步沉淀。",
     "fundFlowCoverage": {
       "targetStart": "上线日起每日沉淀",
       "actualStart": "2026-07-23",
-      "statusText": "同花顺实时资金流"
+      "statusText": "更新失败，沿用快照"
     },
     "counts": {
       "industries": 90,
