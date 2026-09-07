@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import vm from 'node:vm';
+import {createRequire} from 'node:module';
+import '../market-core.js';
+import {parseQuote,windowFlow} from './research-data.mjs';
+const require=createRequire(import.meta.url),ec=require('../assets/echarts.min.js'),M=globalThis.MarketCore;
+const dates=['2026-01-02','2026-01-05','2026-01-06','2026-01-07','2026-01-08'];
+assert.equal(M.rolling(dates,[['2026-01-02',1],['2026-01-05',2],['2026-01-06',3],['2026-01-07',4],['2026-01-08',5]],dates[4],5).value,15);
+assert.equal(M.rolling(dates,[['2026-01-02',1],['2026-01-06',3],['2026-01-07',4],['2026-01-08',5]],dates[4],5).value,null);
+assert.equal(M.stockStats(dates,[['2026-01-05',10],['2026-01-07',20],['2026-01-08',30]],dates[4]).streak,2);
+assert.equal(M.stockStats(dates,[['2026-01-07',20],['2026-01-08',30]],dates[3]).delta,null);
+assert.equal(M.median([null,-1,0,2,6]),1);assert.equal(M.sum([null,undefined]),null);
+assert.equal(M.filterRows([{name:'亏损股',pe:-5},{name:'缺失股',pe:null},{name:'正收益',pe:10}],{peMax:20}).length,1);
+assert.equal(windowFlow(dates,{'2026-01-02':{x:1}},'x',5).value,null);
+const fields=Array(50).fill('');fields[30]='20260907150000';fields[3]='10';fields[39]='';fields[45]='100';const quote=parseQuote('000001',fields);assert.equal(quote.pe,null);assert.equal(quote.marketCap,1e10);assert.equal(quote.date,'2026-09-07');
+
+const fixtures={};for(const [key,file] of Object.entries({data:'site-data',market:'market-data',quotes:'quotes',history:'index-history',analytics:'analytics',events:'events',stockFlows:'stock-flows'}))fixtures[key]=JSON.parse(await fs.readFile('data/'+file+'.json','utf8'));fixtures.archive=JSON.parse(await fs.readFile('data/history/index.json','utf8')).entries;
+fixtures.financials=JSON.parse(await fs.readFile('data/financials.json','utf8'));fixtures.financialChunks={'300':JSON.parse(await fs.readFile('data/financials/300.json','utf8'))};assert.ok(fixtures.financials.count>5000);assert.ok(fixtures.financialChunks['300'].records['300308'].length>1);
+assert.equal(Object.keys(fixtures.quotes.records).length,fixtures.data.stocks.length);
+assert.ok(fixtures.history.records.sh000001.length>400);
+assert.ok(fixtures.events.news.length>0&&fixtures.events.announcements.length>0);
+const css={'--ink':'#20272d','--muted':'#69767f','--line':'#e1e6e9','--red':'#c83c49','--green':'#188365','--accent':'#087f8c','--surface':'#ffffff'};
+const elements=new Map(),nodes=()=>({innerHTML:'',textContent:'',value:'',hidden:false,open:false,dataset:{},classList:{add(){},toggle(){},contains(){return false;}},setAttribute(){},addEventListener(){},insertAdjacentHTML(position,text){this.innerHTML+=text;},focus(){},showModal(){this.open=true;},close(){this.open=false;},getBoundingClientRect(){return {left:0,top:0,right:1000,bottom:600,width:1000,height:600};}});
+const doc={body:nodes(),querySelector(s){if(!elements.has(s))elements.set(s,nodes());return elements.get(s);},querySelectorAll(){return [];},addEventListener(){}};
+let chartCount=0;
+const chartAdapter={getInstanceByDom(){return null;},init(){const server=ec.init(null,null,{renderer:'svg',ssr:true,width:1000,height:420});return {setOption(options){server.setOption(options);const svg=server.renderToSVGString();assert.ok(svg.includes('<path')||svg.includes('<rect'));chartCount++;},on(){},dispose(){server.dispose();},isDisposed(){return false;},resize(){}};}};
+const context=vm.createContext({MarketCore:M,document:doc,window:{echarts:chartAdapter,addEventListener(){},scrollTo(){},print(){}},echarts:chartAdapter,location:{hash:'#overview'},localStorage:{getItem(){return null;},setItem(){}},getComputedStyle(){return {getPropertyValue:k=>css[k]};},setTimeout,clearTimeout,console,Date,URL,Blob,AbortSignal,fetch(){throw new Error('Unexpected network request');}});
+const code=(await fs.readFile('workbench.js','utf8')).replace(/icons\(\);load\(\);\s*$/,'');vm.runInContext(code,context);context.fixtures=fixtures;vm.runInContext('Object.assign(S,fixtures);S.watch.add(idOf(S.data.stocks[0]));',context);
+for(const view of ['overview','rotation','industry','concept','stock','watch','events','report','sources']){context.location.hash='#'+view;vm.runInContext('render()',context);assert.ok(doc.querySelector('#content').innerHTML.length>200,view);}
+context.location.hash='#stock';vm.runInContext('render();S.query=S.data.stocks[0].code;renderTable();',context);assert.equal(vm.runInContext('tableRows().length',context),1);
+vm.runInContext("S.query='';S.direction='out';",context);assert.ok(vm.runInContext('tableRows().every(r=>r.netFlow<0)',context));
+await vm.runInContext("S.detail='个股:300308';S.detailTab='financial';renderDetail();",context);assert.ok(doc.querySelector('#detail-panel').innerHTML.includes('本年累计值'));
+await vm.runInContext("S.detailTab='flow';renderDetail();",context);assert.ok(doc.querySelector('#detail-panel').innerHTML.includes('覆盖'));
+await vm.runInContext("S.compare=['个股:300308','个股:300502'];compareView();",context);assert.ok(doc.querySelector('#detail-body').innerHTML.includes('资金对比')||doc.querySelector('#detail-title').textContent==='资金对比');
+vm.runInContext("S.data.meta.tradingDay='2025-01-02';",context);assert.equal(vm.runInContext("indexInfo('bj899050').price",context),null);assert.equal(vm.runInContext('enrich(S.data.stocks[0]).pe',context),undefined);
+vm.runInContext('dispose();dispose(true);',context);
+console.log(`PASS: source parsing, missing-day windows, no future-date valuation, filters, nine views, ${chartCount} server-rendered chart configurations`);

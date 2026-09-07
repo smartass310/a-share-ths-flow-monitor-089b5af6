@@ -28,9 +28,13 @@ jobs:
       - name: Generate latest THS fund flow data
         run: node scripts/refresh_market.mjs
 
+      - name: Update quotes, announcements and research datasets
+        if: always()
+        run: node scripts/research-data.mjs
+
       - name: Commit generated data
         if: always()
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update THS fund flow data"
-          file_pattern: data/*.json data/history/*.json
+          file_pattern: data/*.json data/history/*.json data/financials/*.json

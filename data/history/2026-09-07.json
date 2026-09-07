@@ -1,7 +1,7 @@
 {
   "meta": {
     "tradingDay": "2026-09-07",
-    "generatedAt": "2026-09-07 22:22:46",
+    "generatedAt": "2026-09-07 21:53:47",
     "taxonomy": "同花顺行业 / 概念 / 个股",
     "dataMode": "live",
     "dataWarning": "资金页面未提供逐条行情日期；快照日期采用已核实的当日指数交易日，采集时间为收盘后。",
@@ -2050,20 +2050,6 @@
       "status": "增强"
     },
     {
-      "name": "注册制次新股",
-      "category": "概念",
-      "indexValue": 158.199,
-      "changePct": 1.4,
-      "inflow": 24617000000,
-      "outflow": 17098000000,
-      "netFlow": 7519000000,
-      "flowRate": 18.02,
-      "memberCount": 87,
-      "leader": "天博智能 33.25%",
-      "note": "天博智能 33.25%",
-      "status": "增强"
-    },
-    {
       "name": "新股与次新股",
       "category": "概念",
       "indexValue": 12350.4,
@@ -2075,6 +2061,20 @@
       "memberCount": 157,
       "leader": "杰锋动力 34.37%",
       "note": "杰锋动力 34.37%",
+      "status": "增强"
+    },
+    {
+      "name": "注册制次新股",
+      "category": "概念",
+      "indexValue": 158.199,
+      "changePct": 1.4,
+      "inflow": 24617000000,
+      "outflow": 17098000000,
+      "netFlow": 7519000000,
+      "flowRate": 18.02,
+      "memberCount": 87,
+      "leader": "天博智能 33.25%",
+      "note": "天博智能 33.25%",
       "status": "增强"
     },
     {
