@@ -15,6 +15,7 @@ concurrency:
 jobs:
   update-data:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,10 +26,11 @@ jobs:
           node-version: "20"
 
       - name: Generate latest THS fund flow data
-        run: node scripts/update_data.mjs
+        run: node scripts/refresh_market.mjs
 
       - name: Commit generated data
+        if: always()
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update THS fund flow data"
-          file_pattern: data/site-data.json
+          file_pattern: data/*.json data/history/*.json
