@@ -14,7 +14,9 @@
       "industries": 90,
       "concepts": 387,
       "stocks": 5206
-    }
+    },
+    "lastAttempt": "2026-09-08 21:00:00",
+    "lastError": "fetch failed"
   },
   "industries": [
     {
