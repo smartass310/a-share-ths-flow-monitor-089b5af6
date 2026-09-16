@@ -14,7 +14,9 @@
       "industries": 90,
       "concepts": 387,
       "stocks": 5207
-    }
+    },
+    "lastAttempt": "2026-09-15 21:47:15",
+    "lastError": "The operation was aborted due to timeout"
   },
   "industries": [
     {
