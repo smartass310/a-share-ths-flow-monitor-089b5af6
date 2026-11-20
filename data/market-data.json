@@ -1,66 +1,66 @@
 {
   "source": "腾讯公开行情",
-  "generatedAt": "2026-11-20 01:33:01",
+  "generatedAt": "2026-11-21 01:07:38",
   "indices": [
     {
       "code": "sh000001",
       "name": "上证指数",
-      "price": 3577.62,
-      "changePct": -0.28,
-      "change": -10.21,
-      "date": "2026-11-19",
+      "price": 3533.79,
+      "changePct": -1.23,
+      "change": -43.83,
+      "date": "2026-11-20",
       "time": "16:14",
-      "amount": 636909060000
+      "amount": 702573850000
     },
     {
       "code": "sz399001",
       "name": "深证成指",
-      "price": 10583.2,
-      "changePct": -0.71,
-      "change": -76.21,
-      "date": "2026-11-19",
+      "price": 10256.39,
+      "changePct": -3.09,
+      "change": -326.81,
+      "date": "2026-11-20",
       "time": "16:14",
-      "amount": 668238210000
+      "amount": 719626570000
     },
     {
       "code": "sz399006",
       "name": "创业板指",
-      "price": 2293.34,
-      "changePct": -0.79,
-      "change": -18.28,
-      "date": "2026-11-19",
+      "price": 2212.13,
+      "changePct": -3.54,
+      "change": -81.21,
+      "date": "2026-11-20",
       "time": "16:14",
-      "amount": 310120730000
+      "amount": 334978240000
     },
     {
       "code": "sh000300",
       "name": "沪深300",
-      "price": 3984.84,
-      "changePct": 0.03,
-      "change": 1.07,
-      "date": "2026-11-19",
+      "price": 3954.57,
+      "changePct": -0.76,
+      "change": -30.27,
+      "date": "2026-11-20",
       "time": "16:14",
-      "amount": 395441170000
+      "amount": 441107730000
     },
     {
       "code": "sh000688",
       "name": "科创50",
-      "price": 1270.78,
-      "changePct": 1.83,
-      "change": 22.79,
-      "date": "2026-11-19",
+      "price": 1231.09,
+      "changePct": -3.12,
+      "change": -39.69,
+      "date": "2026-11-20",
       "time": "16:14",
-      "amount": 110121210000
+      "amount": 91944690000
     },
     {
       "code": "bj899050",
       "name": "北证50",
-      "price": 798.64,
-      "changePct": -3.99,
-      "change": -33.22,
-      "date": "2026-11-19",
-      "time": "15:32",
-      "amount": 9635469100
+      "price": 759.9,
+      "changePct": -4.85,
+      "change": -38.74,
+      "date": "2026-11-20",
+      "time": "15:33",
+      "amount": 9122447100
     }
   ]
 }
